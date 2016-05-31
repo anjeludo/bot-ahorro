@@ -1,0 +1,18 @@
+token: <YOUR-TOKEN>
+ahorradores:
+  Angel:
+    nombre: Angel
+    aliasTelegram: <your-alias>
+    link: angel.lnk
+  Jesus:
+     nombre: Jesus
+     aliasTelegram: <your-alias> 
+     link : jesus.lnk
+  Pepe:
+     nombre: Pepe
+     aliasTelegram: <your-alias> 
+     link : pepe.lnk
+  Quitar:
+     nombre: Quitar
+     aliasTelegram: 
+     link : quitar.lnk
