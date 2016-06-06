@@ -1,4 +1,4 @@
-package org.example;
+package es.tecnova;
 
 public class Ahorrador {
 	private String nombre;

@@ -1,4 +1,4 @@
-package org.example;
+package es.tecnova;
 
 import static java.lang.String.format;
 
@@ -45,7 +45,7 @@ public class Configuration {
 	public boolean isAuth(String username) {
 		boolean auth = false;
 		for(String key:ahorradores.keySet()) {
-			if(ahorradores.get(key).getAliasTelegram().equals(username)) {
+			if(ahorradores.get(key).getAliasTelegram()!=null && ahorradores.get(key).getAliasTelegram().equals(username)) {
 				auth = true;
 				break;
 			}

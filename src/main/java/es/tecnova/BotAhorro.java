@@ -1,88 +1,78 @@
-package org.example;
+package es.tecnova;
 
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
 
+import org.telegram.telegrambots.TelegramApiException;
+import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.logging.BotLogger;
+import org.telegram.telegrambots.logging.BotsFileHandler;
 import org.yaml.snakeyaml.Yaml;
 
+import es.tecnova.bots.BotRedir;
 
-import co.vandenham.telegram.botapi.MessageHandler;
-import co.vandenham.telegram.botapi.TelegramBot;
-import co.vandenham.telegram.botapi.types.Message;
 
-public class EchoBot extends TelegramBot {
+//import co.vandenham.telegram.botapi.MessageHandler;
+//import co.vandenham.telegram.botapi.TelegramBot;
+//import co.vandenham.telegram.botapi.types.Message;
+
+public class BotAhorro{
 	
 	private static Configuration config = null;
+    private static final String LOGTAG = "MAIN";
 
-    public EchoBot() {
-    	super(config.getToken());
-    }
+    
+    public BotAhorro() { }
 
-    // This handler gets called whenever a user sends /start or /help
-    /*@CommandHandler({"start", "help"})
-    public void handleHelp(Message message) {
-    	
-        replyTo(message, "Hi there! I am here to echo all your kind words back to you!");
-    }*/
 
-    // This handler gets called whenever a user sends a general text message.
-    @MessageHandler(contentTypes = Message.Type.TEXT)
-    public void handleTextMessage(Message message) {
-        System.out.println(String.format("%s: %s", message.getChat().getId(), message.getText()));
-        String respuesta = "";
-        String username = message.getFrom().getUsername();
-        System.out.println(message.getFrom().getUsername());
-        if(config.isAuth(username)) {
-	        if(message.getText().toLowerCase().contains("redireccionar")) {
-	        	String [] msg = message.getText().toLowerCase().split("redireccionar ");
-	        	String ahorrador = msg[1];
-	        	 if( config.isAhorrador( ahorrador ) ) {
-	        		 //ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "C:\\temp\\file.lnk");
-	        		
-	        		 respuesta = "Redireccionado a " + ahorrador;
-	        		 try {
-	        			 String lnk = config.findAhorrador(ahorrador).getLink();
-	        			 ProcessBuilder pb = 
-		        				 new ProcessBuilder("cmd", "/c", lnk);
-						Process process = pb.start();
-	        		 } catch (Exception e) {
-	        			 e.printStackTrace();
-						respuesta = "Ha ocurrido un error al intentar redireccionar";
-					}
-	        	 }
-	        	 else {
-	        		 respuesta = ahorrador + " no esta en la lista";
-	        	 }	 
-	        }
-	        else {
-	        	respuesta = "No entiendo lo qué quieres decir";
-	        }
-	        replyTo(message, respuesta);
-        }
-	    else {
-	    	// No autorizado: sin respuesta
-	    }
-    }
-
-    // This is the default handler, called when the other two handlers don't apply.
-    /*@DefaultHandler
-    public void handleDefault(Message message) {
-        replyTo(message, "Say what?");
-    }*/
 
     public static void main(String[] args) {
+        BotLogger.setLevel(Level.ALL);
+        BotLogger.registerLogger(new ConsoleHandler());
+        try {
+            BotLogger.registerLogger(new BotsFileHandler());
+        } catch (IOException e) {
+            BotLogger.severe(LOGTAG, e);
+        }
+        
+        
     	try{
     		leerYaml();
-    		TelegramBot bot = new EchoBot();
-    		bot.start();
     	} catch (Exception e) {
-    		System.out.println("Error: " + e);
+    		BotLogger.severe(LOGTAG, e);
+    		e.printStackTrace();
     	}
+    	
+    	
+        try {
+            TelegramBotsApi telegramBotsApi = createTelegramBotsApi();
+            try {
+                // Register long polling bots. They work regardless type of TelegramBotsApi we are creating
+                telegramBotsApi.registerBot(new BotRedir(config));
+            } catch (TelegramApiException e) {
+                BotLogger.error(LOGTAG, e);
+            }
+        } catch (Exception e) {
+            BotLogger.error(LOGTAG, e);
+            e.printStackTrace();
+        }
+    }
+    
+    private static TelegramBotsApi createTelegramBotsApi() throws TelegramApiException {
+    	TelegramBotsApi telegramBotsApi= createLongPollingTelegramBotsApi();
+      	return telegramBotsApi;
+    }
+    
+    private static TelegramBotsApi createLongPollingTelegramBotsApi() {
+        return new TelegramBotsApi();
     }
     
     private static void leerYaml() {
     	 try {
-			InputStream input = EchoBot.class.getResourceAsStream("/config.yaml");
+			InputStream input = BotAhorro.class.getResourceAsStream("/config.yaml");
 			//InputStream input = new FileInputStream(new File("src/main/resources/config.yaml"));
 			 Yaml yaml = new Yaml();
 			 config = yaml.loadAs( input, Configuration.class );
@@ -94,7 +84,6 @@ public class EchoBot extends TelegramBot {
 			 }
 			 System.out.println(counter);*/
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
