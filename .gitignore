@@ -27,3 +27,7 @@ local.properties
 # Locally stored "Eclipse launch configurations"
 *.launch
 
+/TelegramBots0.0.log
+/TelegramBots0.0.log.lck
+/TelegramBots0.1.log
+/TelegramBots0.1.log.lck

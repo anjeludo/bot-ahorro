@@ -1,0 +1,34 @@
+package es.tecnova.telegram.bots;
+
+import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+
+import es.tecnova.telegram.Configuration;
+import es.tecnova.telegram.ConfigurationHandler;
+
+public abstract class PrivateBot  extends TelegramLongPollingBot {
+	private static final String LOGTAG = "PRIVATE_BOT";
+	
+	public PrivateBot() {}
+	
+	@Override
+	public void onUpdateReceived(Update update) {
+		Configuration conf=ConfigurationHandler.get().getConf();
+		if (update.hasMessage()) {
+			Message message = update.getMessage();
+			String username = message.getFrom().getUserName();
+			if(conf.isAuth(username)){
+				onAuthUpdateReceived(update);
+			}else{
+				onUnAuthUpdateReceived(update);
+		    }
+		}
+	}
+	
+	
+	public abstract void onAuthUpdateReceived(Update update);
+	public void onUnAuthUpdateReceived(Update update){
+		System.out.println("unauth msj");
+	};
+}
