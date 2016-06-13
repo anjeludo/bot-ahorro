@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.example</groupId>
-	<artifactId>bot-ahorro</artifactId>
+	<groupId>es.tecnova.telegram</groupId>
+	<artifactId>BotAhorro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<repositories>
@@ -23,7 +23,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>org.example.EchoBot</mainClass>
+							<mainClass>es.tecnova.telegram.BotAhorro</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
 					</archive>
@@ -57,11 +57,8 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>org.example.EchoBot</mainClass>
+							<mainClass>es.tecnova.telegram.BotAhorro</mainClass>
 						</manifest>
-
-						<!-- <manifestEntries> <mainClass> org.example.EchoBot</mainClass> 
-							</manifestEntries> -->
 					</archive>
 				</configuration>
 			</plugin>
@@ -77,24 +74,13 @@
 		</resources>
 	</build>
 	<dependencies>
-		<!-- Gson: Java to Json conversion -->
+	
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.3.1</version>
 			<scope>compile</scope>
 		</dependency>
-
-		<!-- <dependency> <groupId>TelegramBots4Java</groupId> <artifactId>TelegramBots4Java</artifactId> 
-			<version>1.0</version> <scope>system</scope> <systemPath>/home/angel/proyectos/telegram-bots-java-api/api/build/libs/TelegramBots4Java.jar</systemPath> 
-			</dependency> -->
-		<!-- Local repo -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>co.vandenham.telegram</groupId> -->
-		<!-- <artifactId>TelegramBots4Java</artifactId> -->
-		<!-- <version>1.1</version> -->
-		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.yaml</groupId>
@@ -110,7 +96,5 @@
 		</dependency>
 
 	</dependencies>
-
-
 
 </project>

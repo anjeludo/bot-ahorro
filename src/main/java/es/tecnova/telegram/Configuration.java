@@ -46,7 +46,10 @@ public class Configuration implements Serializable{
 	}
 	
 	public Command getCommand(String commandName){
-		return commands.get(commandName);
+		if(commandName!=null && commandName.length()>0 && commandName.startsWith("/")){
+			return commands.get(commandName.substring(1));
+		}
+		return null;
 	}
 	
 	

@@ -16,8 +16,16 @@ public class Command implements Serializable{
 	
 	public Command(){}
 	
+	public Command(Command c){
+		type=c.getType();
+		file=c.getFile();
+		to=c.getTo();
+		alias=c.getAlias();
+	}
+	
 	public void run(Message message, SendMessage replyMessage){ 
-		System.out.println("buuuuuuuuuuuuu "+ getType());
+		System.out.println("Not implemented yet - " + getType());
+		replyMessage.setText("Not implemented yet - " + getType());
 	};
 
 	public String getType() {

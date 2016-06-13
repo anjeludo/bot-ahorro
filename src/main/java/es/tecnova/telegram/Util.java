@@ -65,12 +65,23 @@ public class Util {
 			result=true;
 		} catch (Exception e) {
 			BotLogger.error(LOGTAG, e);
-			e.printStackTrace();
 		}
 		return result;
 	}
 	
 	
+	public static boolean execute(String file){
+		boolean result=false;
+		try {
+			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", file);
+			Process process = pb.start();
+			result=true;
+		} catch (IOException e) {
+			BotLogger.error(LOGTAG, e);
+		}
+		return result;
+	}
+
 	
 	
 	

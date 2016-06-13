@@ -1,15 +1,20 @@
 package es.tecnova.telegram.bots;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import es.tecnova.telegram.Configuration;
 import es.tecnova.telegram.ConfigurationHandler;
 import es.tecnova.telegram.bots.commands.Command;
-import es.tecnova.telegram.bots.commands.Echo;
 
 public class BotRedir extends PrivateBot {
 	private static final String LOGTAG = "BOT_REDIR";
@@ -38,7 +43,7 @@ public class BotRedir extends PrivateBot {
 			Message message = update.getMessage();
 			replyMessage.enableMarkdown(true);
 			replyMessage.setChatId(message.getChatId().toString());
-			//replyMessage.setReplayMarkup(getKeyboard(null));
+			replyMessage.setReplayMarkup(getKeyboard(null));
 			if (message.hasText()) {
 				handleTextMessage(message, replyMessage);
 			} else {
@@ -63,25 +68,25 @@ public class BotRedir extends PrivateBot {
 		BotLogger.info(LOGTAG, message.toString());
 	}
 
-//	private ReplyKeyboardMarkup getKeyboard(String language) {
-//		ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-//		replyKeyboardMarkup.setSelective(true);
-//		replyKeyboardMarkup.setResizeKeyboard(false);
-//
-//		List<KeyboardRow> keyboard = new ArrayList<>();
-//
-//		Map<String, Usuario> ahorradores = getConf().getAhorradores();
-//
-//		for (String key : ahorradores.keySet()) {
-//			KeyboardRow row = new KeyboardRow();
-//			row.add("/redir " + ahorradores.get(key).getAliasTelegram());
-//			keyboard.add(row);
-//		}
-//
-//		replyKeyboardMarkup.setKeyboard(keyboard);
-//
-//		return replyKeyboardMarkup;
-//	}
+	private ReplyKeyboardMarkup getKeyboard(String language) {
+		ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+		replyKeyboardMarkup.setSelective(true);
+		replyKeyboardMarkup.setResizeKeyboard(false);
+
+		List<KeyboardRow> keyboard = new ArrayList<>();
+		
+		List<String> commandNames=new ArrayList<String>(ConfigurationHandler.get().getConf().getCommands().keySet());
+
+		for (String cn : commandNames) {
+			KeyboardRow row = new KeyboardRow();
+			row.add("/"+cn);
+			keyboard.add(row);
+		}
+
+		replyKeyboardMarkup.setKeyboard(keyboard);
+
+		return replyKeyboardMarkup;
+	}
 
 	// This handler gets called whenever a user sends /start or /help
 	/*
@@ -95,19 +100,19 @@ public class BotRedir extends PrivateBot {
 	public void handleTextMessage(Message message, SendMessage replyMessage) {
 		System.out.println(String.format("%s: %s", message.getChat().getId(), message.getText()));
 		Command c=getConf().getCommand(message.getText());
-		System.out.println(" essssss"+ c.getType());
-//		Echo ec=(Echo)c;
-//		ec.run(message, replyMessage);
-		try {
-			Class<? extends Command> commandType = Class.forName("es.tecnova.telegram.bots.commands."+c.getType()).asSubclass(Command.class);
-			Object cc=commandType.newInstance();
-			commandType.cast(cc).setCommand(c);
-			commandType.cast(cc).run(message, replyMessage);
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(c!=null){
+			try {
+				Class<? extends Command> commandType = Class.forName("es.tecnova.telegram.bots.commands."+c.getType()).asSubclass(Command.class);
+				Object cc=commandType.getDeclaredConstructor(Command.class).newInstance(c);
+				commandType.cast(cc).run(message, replyMessage);
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				BotLogger.info(LOGTAG, e);
+			}
+		}else{
+			BotLogger.info(LOGTAG, "Command not found "+message.getText()+" from "+message.getFrom()+" at "+message.getDate());
+			replyMessage.setText("Command not found");
 		}
-		
+			
 		
 //		String respuesta = "";
 //		String username = message.getFrom().getUserName();

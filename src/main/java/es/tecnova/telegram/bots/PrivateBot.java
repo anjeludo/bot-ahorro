@@ -3,6 +3,7 @@ package es.tecnova.telegram.bots;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.logging.BotLogger;
 
 import es.tecnova.telegram.Configuration;
 import es.tecnova.telegram.ConfigurationHandler;
@@ -28,7 +29,9 @@ public abstract class PrivateBot  extends TelegramLongPollingBot {
 	
 	
 	public abstract void onAuthUpdateReceived(Update update);
+	
 	public void onUnAuthUpdateReceived(Update update){
 		System.out.println("unauth msj");
+		BotLogger.info(LOGTAG,"["+update.getMessage().getDate()+"]UnAuth msj("+update.getMessage().getText()+") reseived from "+update.getMessage().getFrom()+" with chatId: "+update.getMessage().getChatId());
 	};
 }
