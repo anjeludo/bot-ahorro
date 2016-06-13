@@ -6,8 +6,8 @@ import org.telegram.telegrambots.api.objects.Message;
 import es.tecnova.telegram.Util;
 
 public class Execute extends Command {
-	private static final String SUCCESS = "Éxito en la redirección.";
-	private static final String FAIL = "No se pudo realidar la redirección.";
+	private static final String SUCCESS = "Éxito en la ejecución.";
+	private static final String FAIL = "No se pudo realizar la ejecución.";
 	
 	public Execute(Command c) {
 		super(c);

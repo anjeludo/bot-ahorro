@@ -7,7 +7,7 @@ import es.tecnova.telegram.Util;
 
 public class Redir extends Execute {
 	private static final String SUCCESS = "Éxito en la redirección.";
-	private static final String FAIL = "No se pudo realidar la redirección.";
+	private static final String FAIL = "No se pudo realizar la redirección.";
 	
 	public Redir(Command c) {
 		super(c);
