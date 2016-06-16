@@ -22,7 +22,13 @@ public class ConfigurationHandler {
 		return conf;
 	}
 	
-	public void save(){
+	public synchronized  void save(){
 		Util.writeYamlConf(CONFIG_FILE, getConf());
+	}
+
+
+	public synchronized void reload() {
+		instance=null;
+		ConfigurationHandler.get().getConf();
 	}
 }

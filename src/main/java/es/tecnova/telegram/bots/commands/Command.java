@@ -11,15 +11,19 @@ public class Command implements Serializable{
 	private String type;
 	private String file;
 	private String to;
+	private boolean button;
 	private List<String> alias;// = new LinkedList<String>();
 
 	
-	public Command(){}
+	public Command(){
+		button=true;
+	}
 	
 	public Command(Command c){
 		type=c.getType();
 		file=c.getFile();
 		to=c.getTo();
+		button=c.isButton();
 		alias=c.getAlias();
 	}
 	
@@ -62,5 +66,13 @@ public class Command implements Serializable{
 
 	public void setCommand(Command c){
 		setType(c.getType());
+	}
+
+	public boolean isButton() {
+		return button;
+	}
+
+	public void setButton(boolean button) {
+		this.button = button;
 	}
 }

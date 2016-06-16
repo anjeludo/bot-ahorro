@@ -18,7 +18,6 @@ import es.tecnova.telegram.bots.commands.Command;
 
 public class BotRedir extends PrivateBot {
 	private static final String LOGTAG = "BOT_REDIR";
-	private static final String BOT_NAME = "tecnovaAhorroBot";
 	
 	private static final String COMMAND_NOT_FOUND_MSJ = "Comando no encontrado. Use /ayuda para saber más.";
 
@@ -28,12 +27,12 @@ public class BotRedir extends PrivateBot {
 
 	@Override
 	public String getBotUsername() {
-		return BOT_NAME;
+		return getConf().getBotRedirName();
 	}
 
 	@Override
 	public String getBotToken() {
-		return ConfigurationHandler.get().getConf().getToken();
+		return getConf().getToken();
 	}
 
 	@Override
@@ -59,9 +58,6 @@ public class BotRedir extends PrivateBot {
 
 	}
 
-	public Configuration getConf() {
-		return ConfigurationHandler.get().getConf();
-	}
 
 	private void handleOtherMessage(Message message, SendMessage replyMessage) throws TelegramApiException {
 		replyMessage.setText(COMMAND_NOT_FOUND_MSJ);
@@ -75,12 +71,14 @@ public class BotRedir extends PrivateBot {
 
 		List<KeyboardRow> keyboard = new ArrayList<>();
 		
-		List<String> commandNames=new ArrayList<String>(ConfigurationHandler.get().getConf().getCommands().keySet());
+		List<String> commandNames=new ArrayList<String>(getConf().getCommands().keySet());
 
 		for (String cn : commandNames) {
-			KeyboardRow row = new KeyboardRow();
-			row.add("/"+cn);
-			keyboard.add(row);
+			if(getConf().getCommands().get(cn).isButton()){
+				KeyboardRow row = new KeyboardRow();
+				row.add("/"+cn);
+				keyboard.add(row);
+			}
 		}
 
 		replyKeyboardMarkup.setKeyboard(keyboard);

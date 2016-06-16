@@ -10,6 +10,7 @@ import es.tecnova.telegram.bots.commands.Command;
 public class Configuration implements Serializable{
 	private static final long serialVersionUID = 1L;
     private String token;
+    private String botRedirName;
     private Map<String, User> users;
     private Map<String, Command> commands;
  
@@ -61,6 +62,12 @@ public class Configuration implements Serializable{
             .append( format( "comandos: %s\n", commands ) ) 
             .toString();
     }
+	public String getBotRedirName() {
+		return botRedirName;
+	}
+	public void setBotRedirName(String botRedirName) {
+		this.botRedirName = botRedirName;
+	}
 
 	
 //	public boolean isUsuario(String usuario) {

@@ -61,6 +61,7 @@ public class Util {
 			Yaml yaml = new Yaml();
 			FileWriter writer = new FileWriter(filePath);
 			yaml.dump(config, writer);
+			writer.close();
 			System.out.println("conf file content(writing): " + config.toString());
 			result=true;
 		} catch (Exception e) {
@@ -82,8 +83,16 @@ public class Util {
 		return result;
 	}
 
+	public static String getLastWord(String sentence){
+		return sentence.substring(sentence.lastIndexOf(" ")+1);
+	}
 	
-	
+	public static int countWords(String sentence){
+		String trim = sentence.trim();
+	    if (trim.isEmpty())
+	        return 0;
+	    return trim.split("\\s+").length;
+	}
 	
 	 /**
 	 * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
