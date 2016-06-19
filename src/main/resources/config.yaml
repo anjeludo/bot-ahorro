@@ -1,18 +1,43 @@
-token: <YOUR-TOKEN>
-ahorradores:
-  Angel:
-    nombre: Angel
-    aliasTelegram: <your-alias>
-    link: angel.lnk
-  Jesus:
-     nombre: Jesus
-     aliasTelegram: <your-alias> 
-     link : jesus.lnk
-  Pepe:
-     nombre: Pepe
-     aliasTelegram: <your-alias> 
-     link : pepe.lnk
-  Quitar:
-     nombre: Quitar
-     aliasTelegram: 
-     link : quitar.lnk
+botRedirName: <bot name>
+token: <bot token>
+users:
+  exampleAlias: 
+    chatId: 
+  exampleAlias2: 
+    chatId: 
+commands: 
+  echo: 
+    type: Echo
+  help: 
+    type: Help
+  redir Jesus: 
+    type: Redir
+    #Using command "rasphone exampleAlias" and flling a log file
+    file: redirExampleAlias.bat 
+    to: exampleAlias
+  redir exampleAlias2: 
+    type: Redir
+    file: exampleAlias2.bat
+    to: exampleAlias2
+  remove redir: 
+    type: RedirNull
+    file: quitar.bat
+  check redir: 
+    type: Call
+    #Using command "rasphone autoCall" to call the same number that we are redirecting
+    file: autoCall.bat 
+  show log: 
+    type: ShowLog
+    file: log.txt
+  start:
+    type: Start
+    button: false
+  reload config: 
+    type: ReloadConf
+    button: false
+  addUser: 
+    type: AddUser
+    button: false
+  mata a Flanders: 
+    type: Basic
+    button: false

@@ -1,23 +1,22 @@
 package es.tecnova.telegram.bots.commands;
 
-import java.io.IOException;
+import java.util.List;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.logging.BotLogger;
 
 import es.tecnova.telegram.ConfigurationHandler;
 
 public class ReloadConf extends Command {
-	private static final String LOGTAG = "ReloadConf";
-	private static final String REPPLY_MSJ = "Reloaded";
+	private static final String LOGTAG = "RELOAD_CONF";
+
 	public ReloadConf(Command c) {
 		super(c);
 	}
-	
+
 	@Override
-	public void run(Message message, SendMessage replyMessage) {
+	public void run(Message message, SendMessage replyMessage, List<SendMessage> othersMsg) {
 		ConfigurationHandler.get().reload();
-		replyMessage.setText(REPPLY_MSJ);
+		replyMessage.setText(getSuccessMsg());
 	}
 }

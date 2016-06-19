@@ -1,0 +1,16 @@
+messages:
+  Start_success: |
+    Who you gonna call?
+    Use /help to know how this not work
+  Echo_success: echo 
+  Help_success: Help is coming, be patient
+  Redir_success: Éxito en la redirección
+  Redir_notification: Your coworker {0} has redirected calls to your phone
+  RedirNull_success: Redirección anulada con éxito
+  RedirRandom_success: Executing {0}
+  Call_success: Llamando...
+  ShowLog_error: Log not readable
+  ReloadConf_success: Log reloaded
+  ReloadConf_error: Log not readable
+  AddUser_success: User added
+  AddUser_error:  Error on add user

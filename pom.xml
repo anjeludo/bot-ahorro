@@ -71,6 +71,12 @@
 					<include> **/config.yaml</include>
 				</includes>
 			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include> **/messages.yaml</include>
+				</includes>
+			</resource>
 		</resources>
 	</build>
 	<dependencies>

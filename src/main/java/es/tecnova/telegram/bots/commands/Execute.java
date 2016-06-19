@@ -1,27 +1,24 @@
 package es.tecnova.telegram.bots.commands;
 
+import java.util.List;
+
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 
 import es.tecnova.telegram.Util;
 
 public class Execute extends Command {
-	private static final String SUCCESS = "Éxito en la ejecución.";
-	private static final String FAIL = "No se pudo realizar la ejecución.";
-	
 	public Execute(Command c) {
 		super(c);
 	}
 
 	@Override
-	public void run(Message message, SendMessage replyMessage) {
-		if(Util.execute(getFile())){
-			replyMessage.setText(SUCCESS);
-		}else{
-			replyMessage.setText(FAIL);
+	public void run(Message message, SendMessage replyMessage, List<SendMessage> othersMsg) {
+		if (Util.execute(getFile())) {
+			replyMessage.setText(getSuccessMsg());
+		} else {
+			replyMessage.setText(getErrorMsg());
 		}
 	}
-
-	
 
 }
